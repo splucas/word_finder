@@ -1,0 +1,23 @@
+#Project Setup Entries
+[project]
+name = "word_finder"
+version = "0.0.1"
+authors = [ { name="Sean Lucas", email="splucas@gmail.com" },  ]
+description = "A basic package to find words on a 2d game board"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ]
+
+[project.urls]
+"Homepage" = "https://github.com/splucas/word_finder"
+"Bug Tracker" = "https://github.com/splucas/word_finder/issues"
+
+
+# PyTest entries
+[tool.pytest.ini_options]
+addopts = [ "--import-mode=importlib",  ]
+pythonpath = "src"

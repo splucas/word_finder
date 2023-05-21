@@ -2,10 +2,11 @@
 
 class WordsBag:
     def __init__(self, validators=None):
-
-        # Word "Stems" are valid character combinations that lead to actual
-        # words.  For example, the word "bug" has the following stems:
-        #  "b" and "bu" 
+        """
+        Word "Stems" are valid character combinations that lead to actual
+        words.  For example, the word "bug" has the following stems:
+        "b" and "bu" 
+        """
         self.word_stems = set()  
 
         # Set containing full words

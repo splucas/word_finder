@@ -1,0 +1,9 @@
+RED
+BLUE
+GREEN
+VALLEY
+
+.
+123
+1
+$%

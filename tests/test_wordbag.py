@@ -5,7 +5,7 @@ class TestWordbag:
         # Create the validator(s) used by the wordbag
         validator = validators.ValidatorBasic(minsize, maxsize)
         wordbag = wordsbag.WordsBag([validator])
-        wordbag.from_list(testwords)
+        wordbag.from_collection(testwords)
         return wordbag
     def _get_stems_list(self, word):
         stems = []

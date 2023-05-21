@@ -42,11 +42,16 @@ class WordsBag:
                 errors = None
 
         return errors
-    def _add_word(self, word:str):
+    def add_word(self, word:str):
         """
         Adds a word to the collections. 
-        Naively assumes the word is valid and of the correct form.
         """
+        if not word or not isinstance(word, str): return
+
+        word = self._fixup_word(word)
+        errors = self._check_valid(word)
+        if errors != None: 
+            return
 
         # Add the full word
         self.full_words.add(word)
@@ -59,13 +64,10 @@ class WordsBag:
             cnt += 1
 
 
-    def from_list(self, word_list:list[str]):
+    def from_collection(self, word_list:list[str] | set):
         """
-        Iniitializes values from a list of words. 
+        Iniitializes values from a collection (list or set) of words. 
         """
         for word_value in word_list:
-            if word_value:
-                word = self._fixup_word(word_value)
-                errors = self._check_valid(word)
-                if errors == None:
-                    self._add_word(word)
+            self.add_word(word_value)
+

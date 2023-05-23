@@ -1,46 +1,56 @@
+import pytest
+
 from wordfinder import wordsbag, validators
 
-class TestWordbag:
-    def _get_valid_wordbag(self, minsize, maxsize, testwords):
-        # Create the validator(s) used by the wordbag
-        validator = validators.ValidatorBasic(minsize, maxsize)
-        wordbag = wordsbag.WordsBag([validator])
-        wordbag.from_collection(testwords)
-        return wordbag
-    def _get_stems_list(self, word):
+@pytest.fixture
+def test_words():
+    return ["an", "red", "green", "blue", "colors"]
+
+@pytest.fixture
+def word_bag(test_words):
+    validator = validators.ValidatorBasic(3, 5)
+    wordbag = wordsbag.WordsBag([validator])
+    wordbag.from_collection(test_words)
+    return wordbag
+
+@pytest.fixture
+def word_sizes():
+    return 3,5
+
+@pytest.fixture
+def word_stems(test_words):
+    wstems = {}
+    for word in test_words:
         stems = []
+        wstems[word] = stems
         cnt = 1
         while cnt < len(word):
             stems.append( word[0:cnt]  )
             cnt += 1
-        return stems
+    return wstems
 
-    def test_wordbag_words(self):
-        min_size = 3
-        max_size = 5
-        test_words = ["an", "red", "green", "blue", "colors"]
-        wordbag = self._get_valid_wordbag(min_size, max_size, test_words)
 
+class TestWordbag:
+
+    def test_wordbag_words(self, test_words, word_bag, word_sizes):
+        min_size,  max_size = word_sizes
         # Test for words:
         for word in test_words:
             if len(word) >= min_size and len(word) <= max_size:
-                assert wordbag.contains_word(word) == True
+                assert word_bag.contains_word(word) == True
             else:
-                assert wordbag.contains_word(word) == False
+                assert word_bag.contains_word(word) == False
 
-    def test_wordbag_stems(self):
-        min_size = 3
-        max_size = 5
-        test_words = ["an", "red", "green", "blue", "colors"]
-        wordbag = self._get_valid_wordbag(min_size, max_size, test_words)
+    def test_wordbag_stems(self, test_words, word_bag, word_sizes, word_stems):
+        min_size, max_size = word_sizes
 
-        # Test for words:
+        # Test for stems:
         for word in test_words:
-            stems_list = self._get_stems_list(word)
+            stems_list = word_stems[word]
             for stem in stems_list:
                 if len(word) >= min_size and len(word) <= max_size:
-                    assert wordbag.contains_stem(stem) == True
+                    assert word_bag.contains_stem(stem) == True
                 else:
-                    assert wordbag.contains_stem(stem) == False
+                    assert word_bag.contains_stem(stem) == False
 
 

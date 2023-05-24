@@ -6,7 +6,7 @@ from wordfinder import array2d, wordsbag, finders, readers, validators
 def words_bag():
     # Setup initial data elements
     words = readers.read_zipfile()
-    validator = validators.ValidatorBasic(3, 25)
+    validator = validators.ValidatorWordLength(3, 25)
     bagowords = wordsbag.WordsBag([validator])
     bagowords.from_collection(words)
     return bagowords

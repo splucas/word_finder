@@ -8,7 +8,7 @@ def test_words():
 
 @pytest.fixture
 def word_bag(test_words):
-    validator = validators.ValidatorBasic(3, 5)
+    validator = validators.ValidatorWordLength(3, 5)
     wordbag = wordsbag.WordsBag([validator])
     wordbag.from_collection(test_words)
     return wordbag

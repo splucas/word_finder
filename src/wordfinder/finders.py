@@ -1,17 +1,26 @@
 from wordfinder import array2d, wordsbag
 
 
-class FinderArray2D:
+class BreadthFinder:
     """
-    Searches for words located in a 2D Array. The array should be preloaded
-    with valid characters(strings) that will make up search-words
+    Finds words located in a 2D Array using a breadth-first type searching
+    algorithm.  The array should be preloaded with valid characters(strings) 
+    that will make up search-words. 
     """
     # Offsets to search
     _neighbors = ( (-1, -1), (0, -1),  (1, -1),        
                    (-1,  0),           (1,  0),
                    (-1,  1), (0,  1),  (1,  1))
 
-    def __init__(self, char_array2d, word_bag):
+    def __init__(self, char_array2d, word_bag, min_word_len=3):
+        """
+        Initialize the the finder
+
+        Args:
+            char_array2d:  An Array2D Instance
+            word_bagL A wordbag.Wordbag instance
+            min_word_length: The minimum length required for a word to captured
+        """
         assert char_array2d != None
         assert isinstance(char_array2d, array2d.Array2D)
         assert word_bag != None
@@ -20,24 +29,43 @@ class FinderArray2D:
         self.array2d = char_array2d
         self.word_bag = word_bag
 
-        self.min_word_length = 3
+        self.min_word_length = min_word_len
         self.neighbors_cache = {}
 
         self.word_paths = []
 
-    def get_neighbors(self, in_loc):
+    def get_neighbors(self, in_pos:list|tuple) -> list: 
+            """
+            Builds a list of valid neighboring Array2D positions related to 
+            in_pos. Neighbor discovery is based on searching the list of 
+            offsets that represent cardinal and ordinal directions:
+                (-1, -1), (0, -1),  (1, -1),        
+                (-1,  0),           (1,  0),
+                (-1,  1), (0,  1),  (1,  1)
+
+            Args:
+                in_pos:list|tuple : Source position (x,y)
+
+            Returns:
+                List of neighboring positions in the form of
+                [(x1,y1), .. (xN,xN))]
+            """
             out_neighbors = []
             width = self.array2d.width
             height = self.array2d.height
 
             for item in self._neighbors:
-                xy = ( in_loc[0]+item[0], in_loc[1] + item[1]  )
+                xy = ( in_pos[0]+item[0], in_pos[1] + item[1]  )
                 if xy[0] >= 0 and xy[0] < width and xy[1]>=0 and xy[1] < height:
                     out_neighbors.append(xy)
             return out_neighbors
     
     
-    def build_neighbors_cache(self):
+    def _build_neighbors_cache(self):
+        """
+        For every position, create a dictionary entry of the position's nearest
+        neighbors.  
+        """
         for y in range(0, self.array2d.height):
             for x in range(0, self.array2d.width):
                 pos = (x,y) 
@@ -46,11 +74,16 @@ class FinderArray2D:
                     self.neighbors_cache[ pos ] = neighbors
         
         
-    def build_word_path(self, current_path, the_word ):
+    def _build_word_path(self, current_path: list, the_word: str ):
         """
-        current_path -- the path we're traveling; copies are created at each recursion level
-        curr_root: the root node from where the path started
-        the_word: accumulation of letters along the current_path
+        Recursively walks builds out 'current_path' to discover words in the
+        2d array.  Exits early if the collection of letters along a given
+        path is not part of a word.
+
+        Args:
+            current_path (list):- the path we're traveling; copies are created
+                at each recursion level
+            the_word (str): accumulation of letters along the current_path
         """
         
         word_bag = self.word_bag
@@ -69,17 +102,22 @@ class FinderArray2D:
             self.word_paths.append( (the_word, current_path )   )
             
         # Process neighbors, recurse if not processed
-        for loc in self.neighbors_cache[ last_node ]:
-            if loc not in current_path:
-                next_path =  current_path + [loc]
-                self.build_word_path(next_path, the_word )
+        for xy_pos in self.neighbors_cache[ last_node ]:
+            if xy_pos not in current_path:
+                next_path =  current_path + [xy_pos]
+                self._build_word_path(next_path, the_word )
              
         
-    def find_words(self):
+    def find_words(self) -> list:
         """
-        
+        Entry point to Searching the array 2D for all words it contains.  
+                
+        Returns:
+        A list of tuples that contains the word, and its path:
+          (word, [(x1,y1), (x2,y2), .. (xN, yN)])
+
         """
-        self.build_neighbors_cache()
+        self._build_neighbors_cache()
 
         valid_cells = []
         for y in range(0, self.array2d.height):
@@ -89,6 +127,6 @@ class FinderArray2D:
 
 
         for root_pos in valid_cells:
-            self.build_word_path( [ root_pos ], "")
+            self._build_word_path( [ root_pos ], "")
         
         return self.word_paths        

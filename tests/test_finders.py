@@ -23,7 +23,7 @@ def chrs_5x5():
 
 class TestFinders:
 
-    def test_finder_on_5x5(self, chrs_5x5, words_bag):
+    def test_breadthfinder_on_5x5(self, chrs_5x5, words_bag):
         # Create array 2d w/ data 
         arr2d = array2d.Array2D(5,5)
 
@@ -33,8 +33,8 @@ class TestFinders:
                 arr2d.set_at(row[x], x, y)
 
 
-        finder_arr2d = finders.FinderArray2D(arr2d, words_bag)
-        found_words = finder_arr2d.find_words()
+        searcher = finders.BreadthFinder(arr2d, words_bag)
+        found_words = searcher.find_words()
 
         word_set = set()
         for word_data in found_words:

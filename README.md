@@ -1,7 +1,6 @@
 # Word Finder
-Finds english words on in a 2D array; think Boggle(tm) or a word-search puzzle.
-
-
+Provides a basic framework to find and score words located on a 2D array. Think
+Boggle(tm) or a word-search type puzzle.
 
 ### Building
 - Clone the repo
@@ -11,6 +10,6 @@ Finds english words on in a 2D array; think Boggle(tm) or a word-search puzzle.
 - Install build: `pip install --upgrade build`
 - cd to project root: `python -m build`
 
-### Tunning Tests
+### Running Tests
 - Requires [PyTest](https://docs.pytest.org/)
 - Install: `pip install --upgrade pytest`

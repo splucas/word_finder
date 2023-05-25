@@ -17,7 +17,7 @@ class WordScoreBase:
             word (str): The word to score
 
         Returns:
-        A score value (integer)
+            int: A score value 
 
         """
         raise NotImplemented
@@ -47,7 +47,7 @@ class WordScoreSimple(WordScoreBase):
             word (str): The word to score
 
         Returns:
-        A score value (integer)
+            int: A score value
 
         """
 

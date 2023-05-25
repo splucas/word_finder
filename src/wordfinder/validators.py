@@ -18,7 +18,7 @@ class WordValidatorBase:
     def get_error(self) -> str:
         """
         Returns:
-        String indicating the validation failure error message
+            str: String indicating the validation failure error message
         """
         return getattr(self, "error", None)
     
@@ -32,8 +32,8 @@ class WordValidatorBase:
             word (str): The word to check against this particular rule
 
         Returns:
-        Boolean indicating valid(True) or not valid(False). If not valid, then
-        use get_error to understand why.
+            bool: Boolean indicating valid(True) or not valid(False). 
+            if not valid, then use get_error to understand why.
         """
         raise NotImplemented
     
@@ -61,7 +61,8 @@ class ValidatorWordLength(WordValidatorBase):
             word (str): The word to check 
 
         Returns:
-        True if the word length fits within the given limits, otherwise False        
+            bool: True if the word length fits within the given limits, 
+            otherwise False        
         """        
         
         if not word:

@@ -15,14 +15,36 @@ class WordsBag:
         self.validators = validators
 
     def contains_word(self, word:str) -> bool:
+        """
+        Is word contained within this collection?
+
+        Args:
+            word (str): The word to check
+
+        Returns:
+            bool: True if word exists in the collection, otherwise False
+        """
         return word in self.full_words
     
     def contains_stem(self, stem:str) -> bool:
+        """
+        Checks to see if a stem exists in the collection. A stem is a group
+        of letters that ultimately ends as a full word.
+
+        Args:
+            stem (str): A partial word beginning to check
+
+        Returns:
+            bool: True if the stem is in the collection, otherwise False
+        """
         return stem in self.word_stems
 
     def _fixup_word(self, word:str):
         """
         Trim/strip whitespace and set to lowwercase
+
+        Args:
+            word (str): The word to fixup
         """
         out_word = word.strip()
         out_word = out_word.lower()
@@ -32,6 +54,9 @@ class WordsBag:
         """
         Check the word against the list of validators (if exists);
         Return NONE if no errors, or a list of error messages
+
+        Args:
+            word (str): The word to validate
         """
         errors = None
         if self.validators:
@@ -45,7 +70,12 @@ class WordsBag:
         return errors
     def add_word(self, word:str):
         """
-        Adds a word to the collections. 
+        Adds a valid word to the collections. Words are first trimmed and then 
+        validated against the validation rules (if any).  From the word, stems 
+        are then created and stored for later use.
+
+        Args:
+            word (str): source word to store
         """
         if not word or not isinstance(word, str): return
 
@@ -68,6 +98,10 @@ class WordsBag:
     def from_collection(self, word_list:list[str] | set):
         """
         Iniitializes values from a collection (list or set) of words. 
+
+        Args:
+            word_list (list or tuple): A list or tuple containing words to use
+
         """
         for word_value in word_list:
             self.add_word(word_value)

@@ -47,7 +47,7 @@ class BreadthFinder:
                 in_pos:list|tuple : Source position (x,y)
 
             Returns:
-                List of neighboring positions in the form of
+                list: List of neighboring positions in the form of
                 [(x1,y1), .. (xN,xN))]
             """
             out_neighbors = []
@@ -113,7 +113,7 @@ class BreadthFinder:
         Entry point to Searching the array 2D for all words it contains.  
                 
         Returns:
-        A list of tuples that contains the word, and its path:
+            list: A list of tuples that contains the word, and its path:
           (word, [(x1,y1), (x2,y2), .. (xN, yN)])
 
         """

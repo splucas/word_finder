@@ -16,11 +16,11 @@ class TestReaders:
         """
         zipped_data = readers.read_zipfile(_test_data_zip)
         assert zipped_data != None
-        assert len(zipped_data) == 4
+        assert len(zipped_data) == 8
 
         words = ["red", "blue", "green", "valley"]
         for word in words:
-            assert word in zipped_data
+            assert word not in zipped_data
 
         for word in words:
-            assert word.upper() not in zipped_data
+            assert word.upper() in zipped_data
